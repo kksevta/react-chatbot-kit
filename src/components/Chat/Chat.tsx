@@ -303,12 +303,27 @@ const Chat = ({
             className="react-chatbot-kit-chat-input-form"
             onSubmit={handleSubmit}
           >
-            <input
-              className="react-chatbot-kit-chat-input"
-              placeholder={placeholder}
-              value={input}
-              onChange={(e) => setInputValue(e.target.value)}
+            <ConditionallyRender
+              condition={!!customComponents.promptInput}
+              show={
+                customComponents.promptInput &&
+                customComponents.promptInput({
+                  value: input,
+                  placeholder,
+                  className: 'react-chatbot-kit-chat-input',
+                  onChange: (val: string) => setInputValue(val),
+                })
+              }
+              elseShow={
+                <input
+                  className="react-chatbot-kit-chat-input"
+                  placeholder={placeholder}
+                  value={input}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+              }
             />
+
             <button
               className="react-chatbot-kit-chat-btn-send"
               style={customButtonStyle}
